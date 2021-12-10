@@ -1,0 +1,59 @@
+{
+  "name": "legend-of-ascii",
+  "version": "1.0.0",
+  "description": "mud文字冒险游戏-阿斯给传说",
+  "scripts": {
+    "fill:comment": "安装依赖",
+    "fill": "pnpm install || npm install pnpm -g && pnpm install",
+    "dev:comment": "开发构建监听",
+    "dev": "rollup -c rollup.config.dev.js -w",
+    "build:comment": "打包构建",
+    "build": "npm run eslint && rm -rf dist && rollup -c rollup.config.prod.js",
+    "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .ts 的文件",
+    "eslint": "eslint --fix src --ext .ts --max-warnings=0",
+    "commit:comment": "引导设置规范化的提交信息",
+    "commit": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run eslint"
+    ]
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "chrome",
+    "game",
+    "mud"
+  ],
+  "author": "Henshen(organize)",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.4.1",
+    "eslint-config-google": "^0.14.0",
+    "husky": "4",
+    "lint-staged": "^12.1.2",
+    "rollup": "^2.61.0",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-typescript2": "^0.31.1",
+    "typescript": "^4.5.3"
+  }
+}

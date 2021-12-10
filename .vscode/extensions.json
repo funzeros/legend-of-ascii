@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "wayou.vscode-todo-highlight",
+    "eamodio.gitlens"
+  ]
+}
