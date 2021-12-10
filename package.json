@@ -12,7 +12,9 @@
     "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .ts 的文件",
     "eslint": "eslint --fix src --ext .ts --max-warnings=0",
     "commit:comment": "引导设置规范化的提交信息",
-    "commit": "cz"
+    "commit": "cz",
+    "mit:comment": "git提交",
+    "mit": "git add . && cz"
   },
   "config": {
     "commitizen": {
