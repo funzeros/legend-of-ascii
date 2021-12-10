@@ -14,15 +14,35 @@
       npm install pnpm -g
       pnpm install
       or
-      npm run fill
-      or
       yarn fill
+      or
+      npm run fill
       ```
+      >禁止使用其他包管理器安装依赖及提交无关依赖版本文件
   3. 开发运行
       ```bash
       pnpm dev
+      or
+      yarn dev
+      or
+      npm run dev
       ```
+      >开发文件在`test`目录
   4. 项目打包
       ```bash
       pnpm build
+      or
+      yarn build
+      or
+      npm run build
       ```
+      >打包文件在`dist`目录
+  5. 提交代码
+      ```bash
+      pnpm mit
+      or
+      yarn mit
+      or
+      npm run mit
+      ```
+      >如遇按需提交，请自行add后执行`pnpm/yarn/npm·run commit`
