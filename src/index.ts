@@ -11,9 +11,8 @@ class Test {
    */
   constructor(name: string) {
     this.name = name;
-    testUtil();
   }
 }
-const test = new Test('124');
+const test = new Test(testUtil());
 console.log('test');
 console.table(test);
