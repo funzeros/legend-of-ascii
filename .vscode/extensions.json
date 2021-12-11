@@ -3,6 +3,7 @@
     "dbaeumer.vscode-eslint",
     "editorconfig.editorconfig",
     "wayou.vscode-todo-highlight",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "mikestead.dotenv"
   ]
 }

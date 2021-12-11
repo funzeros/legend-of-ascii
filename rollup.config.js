@@ -4,18 +4,31 @@ import serve from 'rollup-plugin-serve';
 import {uglify} from 'rollup-plugin-uglify';
 import livereload from 'rollup-plugin-livereload';
 import path from 'path';
+import injectProcessEnv from 'rollup-plugin-inject-process-env';
+import {config} from 'dotenv';
+const {NODE_ENV}= process.env;
+const isProd = NODE_ENV === 'production';
+// 根据环境获取不同env
+const getEnv = (isProd)=>{
+  if (isProd) {
+    config({path: '.env.production'});
+  } else {
+    const {error}= config({path: '.env.local'});
+    if (error) {
+      config({path: '.env'});
+    }
+  }
+};
+getEnv(isProd);
 
-/**
- * @param {string}  type dev/prod
- * @return {object}
- */
-export default (type) => {
-  type = type.toLocaleLowerCase();
-  const isDev = type === 'dev';
-  const isProd = type === 'prod';
-  const prefix = {'dev': 'test', 'prod': 'dist'}[type];
+export default () => {
+  const {BASE_URL}=process.env;
+  const prefix =isProd?'dist':'test';
   // 这个插件是有执行顺序的
   const plugins = [
+    injectProcessEnv({
+      BASE_URL,
+    }),
     nodeResolve({
       extensions: ['.js', '.ts'],
     }),
@@ -24,7 +37,9 @@ export default (type) => {
     }),
   ];
   // 根据环境调整插件
-  if (isDev) {
+  if (isProd) {
+    plugins.push(...[uglify()]);
+  } else {
     plugins.push(...[livereload(),
       serve({
         port: 9090,
@@ -33,9 +48,7 @@ export default (type) => {
         open: true, // 默认打开浏览器
       }),
     ]);
-  } else if (isProd) {
-    plugins.push(...[uglify()]);
-  };
+  }
   return {
     input: 'src/index.ts',
     output: {

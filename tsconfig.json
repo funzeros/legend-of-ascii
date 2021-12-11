@@ -17,7 +17,7 @@
     "removeComments": true,
     "lib": ["esnext", "dom"],
     "forceConsistentCasingInFileNames": true,
-    "types": [],
+    "types": ["node"],
     "rootDir": ".",
     "paths": {}
   },

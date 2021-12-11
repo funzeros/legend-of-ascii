@@ -16,3 +16,5 @@ class Test {
 const test = new Test(testUtil());
 console.log('test');
 console.table(test);
+const {BASE_URL} = (process as any).env;
+console.log(BASE_URL);
