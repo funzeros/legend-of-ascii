@@ -17,9 +17,18 @@
     "removeComments": true,
     "lib": ["esnext", "dom"],
     "forceConsistentCasingInFileNames": true,
-    "types": ["node"],
+    "types": [],
     "rootDir": ".",
-    "paths": {}
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@loa": ["src/packages/loa-engine"],
+      "@compiler": ["src/packages/compiler-core"],
+      "@runtime": ["src/packages/runtime-core"],
+      "@render": ["src/packages/render-core"],
+      "@common": ["src/packages/common"]
+    }
   },
+  "include": ["src/*.ts", "src/**/*.ts"],
   "exclude": ["dist", "test", "node_modules"]
 }

@@ -28,6 +28,7 @@ export default () => {
   const plugins = [
     injectProcessEnv({
       BASE_URL,
+      IS_DEV: !isProd,
     }),
     nodeResolve({
       extensions: ['.js', '.ts'],
@@ -50,7 +51,7 @@ export default () => {
     ]);
   }
   return {
-    input: 'src/index.ts',
+    input: 'src/main.ts',
     output: {
       file: path.resolve(__dirname, `${prefix}/bundle.js`),
       // global: 弄个全局变量来接收
