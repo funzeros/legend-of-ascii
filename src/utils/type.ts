@@ -1,8 +1,7 @@
-
 export const isType =
   <T = any>(type: string) =>
-    (val: T) =>
-      Object.prototype.toString.call(val) === `[object ${type}]`;
+  (val: T) =>
+    Object.prototype.toString.call(val) === `[object ${type}]`;
 
 export const isObject = (val: object) =>
   typeof val === 'function' || (typeof val === 'object' && !!val);
@@ -45,7 +44,6 @@ export const isEmpty = (val?: null) => isNull(val) || isUndefined(val);
 export const isNaN = (val: number) => Number.isNaN(val);
 
 export const isElement = (val: HTMLElement) =>
-  isObject(HTMLElement) ?
-    val instanceof HTMLElement :
-    isObject(val) && isString(val.nodeName) && val.nodeType === 1;
-
+  isObject(HTMLElement)
+    ? val instanceof HTMLElement
+    : isObject(val) && isString(val.nodeName) && val.nodeType === 1;

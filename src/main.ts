@@ -1,10 +1,9 @@
 import '@/core/extra-prototype';
-import {Engine} from '@loa';
-import {GAME} from './const/default';
-import {Runtime} from './packages/runtime-core';
-import {Renderer} from './packages/render-core';
-import {routeList} from './router';
-
+import { Engine } from '@loa';
+import { GAME } from './const/default';
+import { Runtime } from './packages/runtime-core';
+import { Renderer } from './packages/render-core';
+import { routeList } from './router';
 
 const game = new Engine({
   name: GAME.NAME,

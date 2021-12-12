@@ -46,3 +46,4 @@
       npm run mit
       ```
       >如遇按需提交，请自行add后执行`pnpm/yarn/npm·run commit`
+  6. 可自行在`.vscode`下添加项目代码片段，注释请参考`gems.code-snippets`中的`cmGems`

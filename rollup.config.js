@@ -1,29 +1,29 @@
-import {nodeResolve} from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import ts from 'rollup-plugin-typescript2';
 import serve from 'rollup-plugin-serve';
-import {uglify} from 'rollup-plugin-uglify';
+import { uglify } from 'rollup-plugin-uglify';
 import livereload from 'rollup-plugin-livereload';
 import path from 'path';
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
-import {config} from 'dotenv';
-const {NODE_ENV}= process.env;
+import { config } from 'dotenv';
+const { NODE_ENV } = process.env;
 const isProd = NODE_ENV === 'production';
 // 根据环境获取不同env
-const getEnv = (isProd)=>{
+const getEnv = (isProd) => {
   if (isProd) {
-    config({path: '.env.production'});
+    config({ path: '.env.production' });
   } else {
-    const {error}= config({path: '.env.local'});
+    const { error } = config({ path: '.env.local' });
     if (error) {
-      config({path: '.env'});
+      config({ path: '.env' });
     }
   }
 };
 getEnv(isProd);
 
 export default () => {
-  const {BASE_URL}=process.env;
-  const prefix =isProd?'dist':'test';
+  const { BASE_URL } = process.env;
+  const prefix = isProd ? 'dist' : 'test';
   // 这个插件是有执行顺序的
   const plugins = [
     injectProcessEnv({
@@ -41,14 +41,17 @@ export default () => {
   if (isProd) {
     plugins.push(...[uglify()]);
   } else {
-    plugins.push(...[livereload(),
-      serve({
-        port: 9090,
-        contentBase: '', // 表示起的服务是在根目录下
-        openPage: '/public/index.html', // 打开的是哪个文件
-        open: true, // 默认打开浏览器
-      }),
-    ]);
+    plugins.push(
+      ...[
+        livereload(),
+        serve({
+          port: 9090,
+          contentBase: '', // 表示起的服务是在根目录下
+          openPage: '/public/index.html', // 打开的是哪个文件
+          open: true, // 默认打开浏览器
+        }),
+      ],
+    );
   }
   return {
     input: 'src/main.ts',

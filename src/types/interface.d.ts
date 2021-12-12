@@ -3,4 +3,4 @@ interface LObj<T = any> {
   [K: number]: T;
 }
 
-type LFn = <T extends any[] = any[], U=any>(...p:T[])=>U|void
+type LFn<T = any, U = any> = (...p: T[]) => U | void;

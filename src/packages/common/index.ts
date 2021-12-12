@@ -12,9 +12,9 @@ export class Common {
    * @param {LFn} success
    * @param {LFn} fail
    */
-  public confirm(msg:string, success?:LFn, fail?:LFn) {
-    if (confirm(msg))success&&success();
-    else fail&&fail();
+  public confirm(msg: string, success?: LFn, fail?: LFn) {
+    if (confirm(msg)) success && success();
+    else fail && fail();
   }
   /**
    * @author Gems
@@ -27,7 +27,7 @@ export class Common {
    * @date 2021/12/11 15:25:31
    * @description 静态确认弹窗
    */
-  static confirm(...rest:any) {
+  static confirm(...rest: any) {
     this.common.confirm(rest);
   }
 }

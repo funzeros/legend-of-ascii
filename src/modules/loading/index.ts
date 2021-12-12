@@ -1,10 +1,16 @@
-import {GAME} from '@/const/default';
-import {defineComponent} from '@compiler';
+import tips from '@/components/tips';
+import { GAME } from '@/const/default';
+import { FontFamily } from '@/const/styles';
+import { defineComponent } from '@/packages/compiler-core';
 
 export default defineComponent({
   name: 'Loading',
-  setup() {
-    return [
+  setup({ ctx }) {
+    let count = 1;
+    ctx?.actionOn('confirm', () => {
+      count++;
+    });
+    return () => [
       {
         element: [
           {
@@ -17,9 +23,9 @@ export default defineComponent({
             },
           },
           {
-            content: `[${GAME.NAME_ZH}]`,
+            content: `[${GAME.NAME_ZH}]${count}`,
             style: {
-              fontFamily: 'sans-serif',
+              fontFamily: FontFamily['sans-serif'],
               fontSize: '40px',
               fontWeight: '900',
               textShadow: '2px 2px 4px #667733',
@@ -46,13 +52,19 @@ export default defineComponent({
             content: '冒险开始',
             style: {
               textAlign: 'center',
-              fontFamily: 'sans-serif',
+              fontFamily: FontFamily['sans-serif'],
               fontSize: '24px',
               fontWeight: '900',
               color: '#313131',
             },
-          }],
+          },
+        ],
       },
+      ...tips.injectComponent({
+        props: {
+          value: '请按下Enter开始冒险，若无效请先单击网页空白处',
+        },
+      }),
     ];
   },
 });

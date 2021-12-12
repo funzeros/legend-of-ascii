@@ -1,5 +1,5 @@
-import {isArray} from '@/utils';
-import {Engine} from '../loa-engine';
+import { getRenderOpt } from '@compiler';
+import { Engine } from '@loa';
 
 /**
  * @author Gems
@@ -10,9 +10,9 @@ export class Renderer {
   /**
    * @author Gems
    * @date 2021/12/11 16:46:58
-   * @description 渲染条目数组
+   * @description 待渲染条目数组 是函数
    */
-  private entities: ClassRenderer.Constructor.RendererOption[] = [];
+  private entities: ClassRenderer.Constructor.RendererOption[];
 
   /**
    * @author Gems
@@ -21,9 +21,7 @@ export class Renderer {
    * @param {ClassRenderer.Constructor.Option} options
    */
   constructor(options: ClassRenderer.Constructor.Options) {
-    isArray(options) ||
-      (options = [options as ClassRenderer.Constructor.RendererOption]);
-    this.entities = options as ClassRenderer.Constructor.RendererOption[];
+    this.entities = getRenderOpt(options);
     this.render();
   }
   /**
@@ -43,11 +41,13 @@ export class Renderer {
    * @param {ClassRenderer.RendererStyl} styleObj
    * @return {string}
    */
-  private resolveStyle(styleObj?:ClassRenderer.RendererStyle):string {
+  private resolveStyle(styleObj?: ClassRenderer.RendererStyle): string {
     if (!styleObj) return '';
-    return (styleObj as unknown as Object<ClassRenderer.RendererStyle>).map((v, k)=>{
-      return `${k.toKebabCase()}:${v};`;
-    }).join('');
+    return (styleObj as unknown as Object<ClassRenderer.RendererStyle>)
+      .map((v, k) => {
+        return `${k.toKebabCase()}:${v};`;
+      })
+      .join('');
   }
   /**
    * @author Gems
@@ -56,10 +56,10 @@ export class Renderer {
    * @param {ClassRenderer.RendererElement} element
    */
   private _render_info(element: ClassRenderer.RendererElement) {
-    const styleList:string[] = [];
+    const styleList: string[] = [];
     let text = '';
-    element.forEach((el)=>{
-      text+=`%c${el.content}`;
+    element.forEach((el) => {
+      text += `%c${el.content}`;
       styleList.push(this.resolveStyle(el.style));
     });
     console.info(text, ...styleList);

@@ -4,7 +4,7 @@ declare module ClassRenderer {
       element: RendererElement;
       type?: RendererType;
     }
-    type Options = RendererOption | RendererOption[];
+    type Options = () => RendererOption | RendererOption[];
   }
   /**
    * @author Gems
@@ -34,11 +34,11 @@ declare module ClassRenderer {
     borderRadius,
   }
   type RendererStyle = Partial<{
-    [K in keyof typeof EnumRendererStyle]: string;
+    [K in keyof typeof EnumRendererStyle]: string | number;
   }>;
   type RendererElement = {
     content: string;
-    style?:RendererStyle;
+    style?: RendererStyle;
   }[];
   enum EnumConsole {
     info,

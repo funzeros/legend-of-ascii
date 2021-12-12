@@ -27,3 +27,42 @@ export function nextTick(cb: Function, ctx: any) {
     microTimerFunc();
   }
 }
+
+export const useAntiShake = () => {
+  const antiShake: LObj = {
+    delayFlag: true,
+    holdTimer: null,
+    reHoldTimer: null,
+    holdFlag: true,
+  };
+  const delayAS = (cb: LFn, delay = 3000) => {
+    if (antiShake.delayFlag) {
+      antiShake.delayFlag = false;
+      cb();
+      setTimeout(() => {
+        antiShake.delayFlag = true;
+      }, delay);
+    }
+  };
+  const holdAS = (cb: LFn, delay = 1000) => {
+    clearTimeout(antiShake.holdTimer);
+    if (antiShake.holdFlag) {
+      antiShake.holdFlag = false;
+      cb();
+    }
+    antiShake.holdTimer = setTimeout(() => {
+      antiShake.holdFlag = true;
+    }, delay);
+  };
+  const reholdAS = (cb: LFn, delay = 1000) => {
+    clearTimeout(antiShake.reHoldTimer);
+    antiShake.reHoldTimer = setTimeout(() => {
+      cb();
+    }, delay);
+  };
+  return {
+    delayAS,
+    holdAS,
+    reholdAS,
+  };
+};

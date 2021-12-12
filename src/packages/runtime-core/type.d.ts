@@ -1,8 +1,9 @@
 declare module ClassRuntime {
   namespace Router {
+    type RouteName = string | number | symbol;
     interface RouteRaw {
-      name: string|number|symbol;
-      component:any
+      name: RouteName;
+      component: any;
     }
   }
 }
