@@ -3,8 +3,8 @@ import { defineComponent, defineProps } from '@/packages/compiler-core';
 
 export default defineComponent({
   name: 'Tips',
-  setup(ctx) {
-    const props = defineProps<{ value: string }>(ctx);
+  setup(opt) {
+    const props = defineProps<{ value: string }>(opt);
     return () => ({
       element: [
         {
