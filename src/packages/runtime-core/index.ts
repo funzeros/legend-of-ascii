@@ -1,4 +1,4 @@
-import { nextTick } from '@/utils';
+import { isString, nextTick } from '@/utils';
 import { Engine } from '@loa';
 import { SetupOption } from '@compiler';
 /**
@@ -9,8 +9,12 @@ import { SetupOption } from '@compiler';
 export class Runtime {
   private engine: Engine;
   private routes: ClassRuntime.Router.RouteRaw[] = [];
-  private route?: ClassRuntime.Router.RouteRaw;
-  private routeActionPool = new Map<ClassRuntime.Router.RouteName, LFn[]>();
+  private routeRaw?: ClassRuntime.Router.RouteRaw;
+  private routeActionPool = new Map<
+    ClassRuntime.Router.RouteName,
+    { action: ClassEngine.ActionKey; overrideCallback: LFn }[]
+  >();
+  private routeHistory: ClassRuntime.Router.RouterOption[] = [];
   private renderDataRaw?: ClassRenderer.Constructor.Options;
   /**
    * @author Gems
@@ -37,20 +41,86 @@ export class Runtime {
     if (!this.routes.length) throw Error('At least one route is required');
     const [fistPage] = this.routes;
     this.renderClear();
-    this.render(fistPage);
+    this.render(fistPage, { name: fistPage.name });
+  }
+  /**
+   * @author Gems
+   * @date 2021/12/13 22:41:55
+   * @description 通过路由名称获取路由
+   * @param {ClassRuntime.Router.RouterOption} realOpt
+   */
+  private renderByRouteOpt(
+    realOpt: ClassRuntime.Router.RouterOption,
+  ): ClassRuntime.Router.RouteRaw | void {
+    this.routerClear();
+    const item = this.routes.find(({ name }) => {
+      return name === realOpt.name;
+    });
+    if (item) {
+      this.render(item, realOpt);
+    } else {
+      console.error('Route is 404');
+    }
+  }
+  /**
+   * @author Gems
+   * @date 2021/12/13 22:07:54
+   * @description 路由前进
+   * @param {string|ClassRuntime.Router.RouterOption}opt
+   */
+  private routerPush(opt: string | ClassRuntime.Router.RouterOption) {
+    let realOpt = opt as ClassRuntime.Router.RouterOption;
+    if (isString(opt)) realOpt = { name: opt as string };
+    if (realOpt.name === this.routeRaw?.name) {
+      console.warn('Invalid duplicate name jump');
+      return;
+    }
+    this.renderByRouteOpt(realOpt);
+  }
+  /**
+   * @author Gems
+   * @date 2021/12/13 22:33:08
+   * @description 路由返回
+   */
+  private routerBack() {
+    if (this.routeHistory.length < 2) {
+      console.warn('This is the last route');
+      return;
+    }
+    this.routeHistory.pop();
+    const lastOne = this.routeHistory.pop() as ClassRuntime.Router.RouterOption;
+    this.renderByRouteOpt(lastOne);
+  }
+  /**
+   * @author Gems
+   * @date 2021/12/13 22:13:42
+   * @description 清楚当前路由
+   */
+  private routerClear() {
+    this.renderClear();
+    this.actionClear();
   }
   /**
    * @author Gems
    * @date 2021/12/11 20:07:16
    * @description 渲染方法
    * @param {ClassRuntime.Router.RouteRaw} page
+   * @param {ClassRuntime.Router.RouterOption} route
    */
-  private render(page: ClassRuntime.Router.RouteRaw) {
-    // TODO: 再次执行时需要销毁上次route 并执行响应销毁方法 生命周期还没写完
-    this.route = page;
+  private render(
+    page: ClassRuntime.Router.RouteRaw,
+    route: ClassRuntime.Router.RouterOption,
+  ) {
+    this.routeRaw = page;
+    this.routeHistory.push(route);
     const setupCtx: SetupOption = {
       props: {},
       ctx: this,
+      router: {
+        push: this.routerPush.bind(this),
+        back: this.routerBack.bind(this),
+      },
+      route,
     };
     this.renderDataRaw = page.component.setup(setupCtx);
     this.engine.singleRender(this.renderDataRaw!);
@@ -85,18 +155,31 @@ export class Runtime {
     callback: LFn<[ClassEngine.ActionEvent]>,
     isRerender: boolean = true,
   ) {
-    const routeName = this.route?.name ?? '';
+    const routeName = this.routeRaw?.name ?? '';
     if (!routeName) return;
     const overrideCallback = () => {
       callback();
       isRerender && this.rerender();
     };
     if (this.routeActionPool.has(routeName))
-      this.routeActionPool.get(routeName)?.push(overrideCallback);
-    else this.routeActionPool.set(routeName, [overrideCallback]);
+      this.routeActionPool.get(routeName)?.push({ action, overrideCallback });
+    else this.routeActionPool.set(routeName, [{ action, overrideCallback }]);
     this.engine.$on(action, overrideCallback);
   }
-  // TODO:务必完成路由生命周期和事件自动卸载，否则可能导致事件重复绑定
+  /**
+   * @author Gems
+   * @date 2021/12/13 22:15:22
+   * @description 清楚事件
+   */
+  private actionClear() {
+    const routeName = this.routeRaw?.name ?? '';
+    if (!routeName) return;
+    this.routeActionPool
+      .get(routeName)
+      ?.forEach(({ action, overrideCallback }) => {
+        this.engine.$off(action, overrideCallback);
+      });
+  }
   /**
    * @author Gems
    * @date 2021/12/11 17:05:34

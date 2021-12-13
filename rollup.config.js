@@ -7,29 +7,27 @@ import path from 'path';
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
 import { config } from 'dotenv';
 const { NODE_ENV } = process.env;
-const isProd = NODE_ENV === 'production';
 // 根据环境获取不同env
-const getEnv = (isProd) => {
-  if (isProd) {
-    config({ path: '.env.production' });
-  } else {
-    const { error } = config({ path: '.env.local' });
-    if (error) {
-      config({ path: '.env' });
-    }
-  }
-};
-getEnv(isProd);
+((suffix = 'local') => {
+  const { error } = config({ path: suffix ? `.env.${suffix}` : '.env' });
+  if (error) config({ path: '.env' });
+})(NODE_ENV);
 
 export default () => {
-  const { BASE_URL } = process.env;
+  const isProd = NODE_ENV === 'production';
+  const LoaEnv = {
+    ...Object.keys(process.env).reduce((acc, cur) => {
+      if (cur.startsWith('LOA_')) acc[cur] = process.env[cur];
+      return acc;
+    }, {}),
+    LOA_IS_DEV: !isProd,
+  };
+  console.log('env:');
+  console.table(LoaEnv);
   const prefix = isProd ? 'dist' : 'test';
   // 这个插件是有执行顺序的
   const plugins = [
-    injectProcessEnv({
-      BASE_URL,
-      IS_DEV: !isProd,
-    }),
+    injectProcessEnv(LoaEnv),
     nodeResolve({
       extensions: ['.js', '.ts'],
     }),

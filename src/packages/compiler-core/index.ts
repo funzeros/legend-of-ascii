@@ -4,6 +4,11 @@ import { Runtime } from '@runtime';
 export interface SetupOption {
   props: LObj;
   ctx: Runtime | null;
+  router: {
+    push: (p: string | ClassRuntime.Router.RouterOption) => void;
+    back: () => void;
+  };
+  route: ClassRuntime.Router.RouterOption;
 }
 type DefineComponentReturn = {
   name?: string;
@@ -26,7 +31,7 @@ const getSetupOption = (otp?: Partial<SetupOption>): SetupOption => {
     props: {},
     ctx: null,
     ...otp,
-  };
+  } as SetupOption;
 };
 
 /**

@@ -7,7 +7,7 @@ import { routeList } from './router';
 
 const game = new Engine({
   name: GAME.NAME,
-  isDev: process.env.IS_DEV,
+  isDev: process.env.LOA_IS_DEV,
 });
 
 game.use(Runtime, routeList).use(Renderer).start();

@@ -1,7 +1,7 @@
 declare interface RunTimeProcess {
   env: {
-    BASE_URL: string;
-    IS_DEV: boolean;
+    LOA_BASE_URL: string;
+    LOA_IS_DEV: boolean;
   };
 }
 declare const process: RunTimeProcess;

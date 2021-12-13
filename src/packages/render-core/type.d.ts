@@ -32,14 +32,17 @@ declare module ClassRenderer {
     marginTop,
     marginBottom,
     borderRadius,
+    textAlign,
   }
   type RendererStyle = Partial<{
     [K in keyof typeof EnumRendererStyle]: string | number;
   }>;
-  type RendererElement = {
+  type RendererElementItem = {
     content: string;
     style?: RendererStyle;
-  }[];
+    type?: 'div';
+  };
+  type RendererElement = RendererElementItem[];
   enum EnumConsole {
     info,
     table,
