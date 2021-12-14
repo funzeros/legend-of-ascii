@@ -39,7 +39,7 @@ export default defineComponent({
               margin: '6px',
               borderRadius: '4px',
             }),
-            text(m.name, {
+            text(m[props.labelName || 'name'], {
               fontWeight: 900,
               fontSize: '18px',
               color: '#333',
@@ -69,11 +69,13 @@ export default defineComponent({
 export interface CommandOption {
   name: string;
   describe?: string;
+  [k: string]: any;
 }
 export type CommandOptions = CommandOption[];
 
 export type CommandListProps = {
   optionList: CommandOptions;
+  labelName?: string;
   onselect: (
     item: CommandOption,
     $: SetupOption,
