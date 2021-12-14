@@ -152,13 +152,13 @@ export class Runtime {
    */
   public actionOn(
     action: ClassEngine.ActionKey,
-    callback: LFn<[ClassEngine.ActionEvent]>,
+    callback: LFn<ClassEngine.ActionEvent>,
     isRerender: boolean = true,
   ) {
     const routeName = this.routeRaw?.name ?? '';
     if (!routeName) return;
-    const overrideCallback = () => {
-      callback();
+    const overrideCallback = (actionEvent: ClassEngine.ActionEvent) => {
+      callback(actionEvent);
       isRerender && this.rerender();
     };
     if (this.routeActionPool.has(routeName))

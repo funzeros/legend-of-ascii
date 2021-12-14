@@ -15,7 +15,7 @@ type DefineComponentReturn = {
   setup(opt: SetupOption): ClassRenderer.Constructor.Options;
   injectComponent(
     opt?: Partial<SetupOption>,
-  ): ClassRenderer.Constructor.RendererOption[];
+  ): ClassRenderer.Constructor.OptionsArr;
 };
 type DefineComponentOption = Omit<DefineComponentReturn, 'injectComponent'>;
 
@@ -43,8 +43,11 @@ const getSetupOption = (otp?: Partial<SetupOption>): SetupOption => {
  */
 export const getRenderOpt = (
   renderOpt: ClassRenderer.Constructor.Options,
+  ...p: any
 ): ClassRenderer.Constructor.RendererOption[] => {
-  let realEntities = renderOpt() as ClassRenderer.Constructor.RendererOption[];
+  let realEntities = renderOpt(
+    ...p,
+  ) as ClassRenderer.Constructor.RendererOption[];
   if (!isArray(realEntities))
     realEntities = [
       realEntities as unknown as ClassRenderer.Constructor.RendererOption,
@@ -63,9 +66,11 @@ export const defineComponent = (
 ): DefineComponentReturn => {
   return {
     ...options,
-    injectComponent(otp): ClassRenderer.Constructor.RendererOption[] {
-      const renderOpt = options.setup.call(this, getSetupOption(otp));
-      return getRenderOpt(renderOpt);
+    injectComponent(otp) {
+      const renderFn = options.setup.call(this, getSetupOption(otp));
+      return (...p: any) => {
+        return getRenderOpt(renderFn, ...p);
+      };
     },
   };
 };

@@ -6,6 +6,7 @@ import { defineComponent } from '@/packages/compiler-core';
 export default defineComponent({
   name: 'Loading',
   setup({ ctx, router }) {
+    const tipsComp = tips.injectComponent();
     let count = 1;
     ctx?.actionOn('select', () => {
       count++;
@@ -57,10 +58,8 @@ export default defineComponent({
           color: '#313131',
         }),
       ),
-      ...tips.injectComponent({
-        props: {
-          value: '请按下Enter/Space开始冒险，若无效请先单击网页空白处',
-        },
+      ...tipsComp({
+        msg: '请按下Enter/Space开始冒险，若无效请先单击网页空白处',
       }),
     ];
   },

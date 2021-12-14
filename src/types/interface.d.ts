@@ -4,3 +4,5 @@ interface LObj<T = any> {
 }
 
 type LFn<T = any, U = any> = (...p: T[]) => U | void;
+
+type strnum = string | number;

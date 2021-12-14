@@ -128,18 +128,39 @@ export class Engine extends Common {
 
   // 键盘事件管理Action
   private actionDisabled = false;
-
+  /**
+   * @author Gems
+   * @date 2021/12/14 19:05:22
+   * @description 生成键盘键位映射
+   * @param {string[]} keys
+   * @param {ClassEngine.ActionKey} command
+   * @return {LObj<ClassEngine.ActionKey>}
+   */
+  protected genActionKeyDict(
+    keys: string[] = [],
+    command: ClassEngine.ActionKey,
+  ) {
+    return keys.reduce((acc, cur) => {
+      acc[cur.toUpperCase()] = command;
+      return acc;
+    }, {} as LObj<ClassEngine.ActionKey>);
+  }
   protected readonly actionKeyDcitMap: LObj<ClassEngine.ActionKey> = {
-    ['ArrowUp'.toUpperCase()]: 'select',
-    ['ArrowDown'.toUpperCase()]: 'select',
-    ['ArrowLeft'.toUpperCase()]: 'select',
-    ['ArrowRight'.toUpperCase()]: 'select',
-    ['w'.toUpperCase()]: 'select',
-    ['s'.toUpperCase()]: 'select',
-    ['a'.toUpperCase()]: 'select',
-    ['d'.toUpperCase()]: 'select',
-    [' '.toUpperCase()]: 'confirm',
-    ['enter'.toUpperCase()]: 'confirm',
+    ...this.genActionKeyDict(
+      [
+        ...Array.from(new Array(10)).map((_, i) => '' + i),
+        'ArrowUp',
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight',
+        'w',
+        'a',
+        's',
+        'd',
+      ],
+      'select',
+    ),
+    ...this.genActionKeyDict([' ', 'enter'], 'confirm'),
   };
   protected readonly availableKeys = Object.keys(this.actionKeyDcitMap);
   /**

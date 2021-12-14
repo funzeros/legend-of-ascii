@@ -4,7 +4,8 @@ declare module ClassRenderer {
       element: RendererElement;
       type?: RendererType;
     }
-    type Options = () => RendererOption | RendererOption[];
+    type Options = (...p: any) => RendererOption | RendererOption[];
+    type OptionsArr = (...p: any) => RendererOption[];
   }
   /**
    * @author Gems
@@ -38,7 +39,7 @@ declare module ClassRenderer {
     [K in keyof typeof EnumRendererStyle]: string | number;
   }>;
   type RendererElementItem = {
-    content: string;
+    content: strnum;
     style?: RendererStyle;
     type?: 'div';
   };

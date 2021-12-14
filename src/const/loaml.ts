@@ -5,7 +5,7 @@ export const loaml = {
     content: '\r\n',
   },
   div(
-    content: string,
+    content: strnum,
     style?: ClassRenderer.RendererStyle,
   ): ClassRenderer.RendererElementItem {
     return {
@@ -15,7 +15,7 @@ export const loaml = {
     };
   },
   view(
-    content: string,
+    content: strnum,
     style?: ClassRenderer.RendererStyle,
   ): ClassRenderer.RendererElementItem {
     return {
@@ -28,7 +28,7 @@ export const loaml = {
     };
   },
   span(
-    content: string,
+    content: strnum,
     style?: ClassRenderer.RendererStyle,
   ): ClassRenderer.RendererElementItem {
     return {
@@ -37,7 +37,7 @@ export const loaml = {
     };
   },
   text(
-    content: string,
+    content: strnum,
     style?: ClassRenderer.RendererStyle,
   ): ClassRenderer.RendererElementItem {
     return {
