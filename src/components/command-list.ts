@@ -1,5 +1,9 @@
 import { text, row } from '@/const/loaml';
-import { defineComponent, defineProps } from '@/packages/compiler-core';
+import {
+  defineComponent,
+  defineProps,
+  SetupOption,
+} from '@/packages/compiler-core';
 import tips from './tips';
 export default defineComponent({
   name: 'CommandList',
@@ -7,7 +11,7 @@ export default defineComponent({
     const tipsComp = tips.injectComponent();
     const size = 9;
     let current = 1;
-    const props = defineProps<{ optionList: CommandOptions }>($);
+    const props = defineProps<CommandListProps>($);
     const total = Math.ceil(props.optionList.length / size);
     const getRenderList = () => {
       return props.optionList.slice((current - 1) * size, current * size);
@@ -18,7 +22,7 @@ export default defineComponent({
         return current < total && ++current;
       const item = getRenderList()[+e.key - 1];
       if (!item) return;
-      item.fn($, item, e);
+      props.onselect && props.onselect(item, $, e);
     });
     return () => {
       const renderList = getRenderList();
@@ -68,3 +72,12 @@ export interface CommandOption {
   fn: LFn;
 }
 export type CommandOptions = CommandOption[];
+
+export type CommandListProps = {
+  optionList: CommandOptions;
+  onselect: (
+    item: CommandOption,
+    $: SetupOption,
+    e: ClassEngine.ActionEvent,
+  ) => void;
+};

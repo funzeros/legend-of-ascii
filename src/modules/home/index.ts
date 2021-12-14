@@ -1,11 +1,11 @@
-import commandList, { CommandOptions } from '@/components/command-list';
+import commandList, { CommandListProps } from '@/components/command-list';
 import { br, row, view } from '@/const/loaml';
 import { defineComponent } from '@/packages/compiler-core';
 
 export default defineComponent({
   name: 'Home',
   setup($) {
-    const commandListProps: { optionList: CommandOptions } = {
+    const commandListProps: CommandListProps = {
       optionList: Array.from(new Array(50)).map((_, i) => {
         return {
           name: `第${i + 1}个选项撒`,
@@ -14,6 +14,9 @@ export default defineComponent({
           },
         };
       }),
+      onselect: (item) => {
+        alert(`内容：${item.name}`);
+      },
     };
     const commandListComp = commandList.injectComponent({
       ...$,
