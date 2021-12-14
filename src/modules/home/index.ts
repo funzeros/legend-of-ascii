@@ -9,9 +9,6 @@ export default defineComponent({
       optionList: Array.from(new Array(50)).map((_, i) => {
         return {
           name: `第${i + 1}个选项撒`,
-          fn() {
-            alert(`内容：第${i + 1}个选项撒`);
-          },
         };
       }),
       onselect: (item) => {

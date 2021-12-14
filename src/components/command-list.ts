@@ -69,7 +69,6 @@ export default defineComponent({
 export interface CommandOption {
   name: string;
   describe?: string;
-  fn: LFn;
 }
 export type CommandOptions = CommandOption[];
 
