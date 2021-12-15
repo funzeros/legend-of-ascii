@@ -26,7 +26,8 @@
       "@compiler": ["src/packages/compiler-core"],
       "@runtime": ["src/packages/runtime-core"],
       "@render": ["src/packages/render-core"],
-      "@common": ["src/packages/common"]
+      "@common": ["src/packages/common"],
+      "@loax": ["src/packages/loax-core"]
     }
   },
   "include": ["src/*.ts", "src/**/*.ts"],

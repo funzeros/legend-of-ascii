@@ -1,4 +1,5 @@
 import { text, row } from '@/const/loaml';
+import { Color } from '@/const/styles';
 import {
   defineComponent,
   defineProps,
@@ -31,18 +32,16 @@ export default defineComponent({
         ...renderList.map((m, i) => {
           return row(
             text(i + 1, {
-              fontWeight: 900,
-              fontSize: '20px',
-              backgroundColor: '#aa9977',
-              color: '#fff',
-              padding: '2px 4px',
-              margin: '6px',
+              fontSize: '16px',
+              backgroundColor: Color.中灰绿,
+              color: Color.白,
+              padding: '0px 4px',
+              marginRight: '6px',
               borderRadius: '4px',
             }),
             text(m[props.labelName || 'name'], {
-              fontWeight: 900,
-              fontSize: '18px',
-              color: '#333',
+              fontSize: '14px',
+              color: Color.深灰,
             }),
           );
         }),
@@ -52,7 +51,7 @@ export default defineComponent({
                 text(`页码【${current}/${total}】`, {
                   fontWeight: 900,
                   fontSize: '14px',
-                  color: '#465',
+                  color: Color.深灰绿,
                   padding: '2px 4px',
                   margin: '6px',
                   borderRadius: '4px',
@@ -60,7 +59,9 @@ export default defineComponent({
               ),
             ]
           : []),
-        ...tipsComp({ msg: '使用[←][→]或[a][d]切换分页' }),
+        ...tipsComp({
+          msg: '使用[1-9]选择选项，使用[←][→]或[a][d]切换分页',
+        }),
       ];
     };
   },

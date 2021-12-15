@@ -1,5 +1,5 @@
 import { span, row, text } from '@/const/loaml';
-import { FontFamily } from '@/const/styles';
+import { Color, FontFamily } from '@/const/styles';
 import { defineComponent } from '@/packages/compiler-core';
 
 export default defineComponent({
@@ -9,15 +9,15 @@ export default defineComponent({
       row(
         span('Tips:', {
           fontWeight: 900,
-          backgroundColor: '#778899',
-          color: '#fff',
+          backgroundColor: Color.中灰绿,
+          color: Color.白,
           padding: '2px 4px',
           marginRight: '4px',
           borderRadius: '4px',
         }),
         text(msg, {
-          backgroundColor: '#aaa',
-          color: '#ffa',
+          backgroundColor: Color.浅灰,
+          color: Color.淡淡的黄,
           padding: '2px 10px',
           marginRight: '10px',
           borderRadius: '4px',
