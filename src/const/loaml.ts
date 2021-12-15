@@ -21,7 +21,7 @@ export const loaml = {
     return {
       content,
       style: {
-        fontFamily: FontFamily['sans-serif'],
+        fontFamily: FontFamily.default,
         ...style,
       },
       type: 'div',
@@ -43,7 +43,7 @@ export const loaml = {
     return {
       content,
       style: {
-        fontFamily: FontFamily['sans-serif'],
+        fontFamily: FontFamily.default,
         ...style,
       },
     };
